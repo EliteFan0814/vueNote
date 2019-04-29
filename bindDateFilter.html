@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .bindDiv {
+            border: 10px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 数据绑定|过滤器:第一个参数永远都是他前面的数据 -->
+        {{date | formatDate('parameter1','parameter2')}} <br>
+        直接写数据：{{apple}} <br>
+        v-text: <span v-text='banana'></span> <br>
+        v-html: <div v-html='banana'></div> <br>
+        v-bind：<div v-bind:class='className'></div> <br>
+        v-bind：<div :class='className'></div> <br>
+        <button v-on:click='count'>{{countNum}}</button>
+        <button @click='count'>{{countNum}}</button>
+        <div>{{now}}</div>
+        <div>{{text}}</div>
+        <div>{{text.split('').reverse().join('')}}</div>
+        <div>{{reverseText}}</div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                date: new Date(),
+                apple: '苹果',
+                banana: '<span style="color:red;">香蕉</span>',
+                className: 'bindDiv',
+                countNum: 0,
+                text:'hello,this is my book.'
+            },
+            computed:{
+                now:function(){
+                    return Date.now()
+                },
+                reverseText:function(){
+                    return this.text.split('').reverse().join('')
+                }
+            },
+            filters: {
+                formatDate: function (value, par1, par2) {
+                    let date = new Date(value)
+                    let year = date.getFullYear()
+                    let month = date.getMonth() + 1
+                    let day = addZero(date.getDate())
+                    let hours = addZero(date.getHours())
+                    let min = addZero(date.getMinutes())
+                    let sec = addZero(date.getSeconds())
+                    return `${year}年${month}月${day}日${hours}--${min}--${sec}参数1:${par1}参数2:${par2}`
+                }
+            },
+            methods:{
+                count:function(){
+                    this.countNum++
+                }
+            },
+            created: function () {
+
+            },
+            mounted: function () {
+                let _this = this // _this this 为当前 Vue 的实例 app
+                this.timer = setInterval(function () {
+                    // console.log(this) setInterval 里的 this 指的是 window,所以要使用 _this
+                    // 此处还可以直接使用箭头函数，前后 this 的值就会保持一致，始终为 Vue 实例 app
+                    _this.date = new Date()
+                }, 1000)
+            },
+            beforeDestory: function () {
+                if (this.timer) {
+                    clearInterval(this.timer)
+                }
+            }
+        })
+
+        function addZero(date) {
+            return date < 10 ? '0' + date : date
+        }
+    </script>
+</body>
+
+</html>
