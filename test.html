@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .classA {
+            border: 1px solid red;
+        }
+
+        .classB {
+            width: 100px;
+        }
+
+        .classC {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div v-bind:class='classList'></div>
+        <div v-bind:class='[a,b,c]'></div>
+        <div v-bind:style='styleList'></div>
+        <div v-if='type === "name"'>邮箱：<input type="text" placeholder="请输入邮箱"></div>
+        <div v-else>密码：<input type="text" placeholder="请输入密码" key='psd'></div>
+        <button v-on:click='change'>点击切换</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                classList: {
+                    classA: true,
+                    classB: true,
+                    classC: true
+                },
+                a:'classA',
+                b:'classB',
+                c:'classC',
+                styleList:{
+                    border:'1px solid green',
+                    backgroundColor:'blue',
+                    width:'100px',
+                    height:'100px'
+                },
+                type:'name'
+            },
+            methods:{
+                change:function(){
+                    this.type = this.type === 'name'?'psd':'name'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

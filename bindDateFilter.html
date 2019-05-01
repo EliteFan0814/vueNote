@@ -29,6 +29,7 @@
         <div>{{text}}</div>
         <div>{{text.split('').reverse().join('')}}</div>
         <div>{{reverseText}}</div>
+        <button v-bind:disabled="isButtonDisabled">Button</button>
     </div>
 
     <script>
@@ -40,7 +41,8 @@
                 banana: '<span style="color:red;">香蕉</span>',
                 className: 'bindDiv',
                 countNum: 0,
-                text:'hello,this is my book.'
+                text:'hello,this is my book.',
+                isButtonDisabled:'null'
             },
             computed:{
                 now:function(){
