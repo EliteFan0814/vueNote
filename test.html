@@ -24,37 +24,47 @@
 
 <body>
     <div id="app">
-        <div v-bind:class='classList'></div>
-        <div v-bind:class='[a,b,c]'></div>
-        <div v-bind:style='styleList'></div>
-        <div v-if='type === "name"'>邮箱：<input type="text" placeholder="请输入邮箱"></div>
-        <div v-else>密码：<input type="text" placeholder="请输入密码" key='psd'></div>
-        <button v-on:click='change'>点击切换</button>
+        <input type="text" v-model='message'>
+        <p>输入文本框：{{message}}</p>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">Jack
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">John
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">Mike
+        <p>多选：{{checkedNames}}</p>
+        <input type="radio" id="one" value="One" v-model="picked">One
+        <input type="radio" id="two" value="Two" v-model="picked">Two
+        <p>单选：{{picked}}</p>
+        <select name="select" id="select" v-model="selected">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+        </select>
+        <p>下拉框：{{selected}}</p>
+        <select name="vforselect" id="vforselect" v-model="vforselect">
+            <option v-for="item in vforselectList" v-bind:value="item.value">{{item.text}}</option>
+        </select>
+        <p>v-for下拉框：{{vforselect}}</p>
+        <input type="text" v-model.lazy='lazymessage'>
+        <p>lazy修饰符输入文本框：{{lazymessage}}</p>
+        <input type="number" v-model.number='numberTest'>
+        <p>lazy修饰符输入文本框：{{numberTest}}</p>
     </div>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
-                classList: {
-                    classA: true,
-                    classB: true,
-                    classC: true
-                },
-                a:'classA',
-                b:'classB',
-                c:'classC',
-                styleList:{
-                    border:'1px solid green',
-                    backgroundColor:'blue',
-                    width:'100px',
-                    height:'100px'
-                },
-                type:'name'
-            },
-            methods:{
-                change:function(){
-                    this.type = this.type === 'name'?'psd':'name'
-                }
+                message: '',
+                checkedNames:[],
+                picked:'',
+                selected:'',
+                vforselect:'A',
+                vforselectList:[
+                    {text:'one',value:'A'},
+                    {text:'two',value:'B'},
+                    {text:'three',value:'C'}
+                ],
+                lazymessage:'',
+                numberTest:''
+
             }
         })
     </script>
