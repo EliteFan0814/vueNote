@@ -7,64 +7,39 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <style>
-        .classA {
-            border: 1px solid red;
-        }
-
-        .classB {
-            width: 100px;
-        }
-
-        .classC {
-            height: 100px;
-        }
-    </style>
 </head>
 
 <body>
     <div id="app">
-        <input type="text" v-model='message'>
-        <p>输入文本框：{{message}}</p>
-        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">Jack
-        <input type="checkbox" id="john" value="John" v-model="checkedNames">John
-        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">Mike
-        <p>多选：{{checkedNames}}</p>
-        <input type="radio" id="one" value="One" v-model="picked">One
-        <input type="radio" id="two" value="Two" v-model="picked">Two
-        <p>单选：{{picked}}</p>
-        <select name="select" id="select" v-model="selected">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-        </select>
-        <p>下拉框：{{selected}}</p>
-        <select name="vforselect" id="vforselect" v-model="vforselect">
-            <option v-for="item in vforselectList" v-bind:value="item.value">{{item.text}}</option>
-        </select>
-        <p>v-for下拉框：{{vforselect}}</p>
-        <input type="text" v-model.lazy='lazymessage'>
-        <p>lazy修饰符输入文本框：{{lazymessage}}</p>
-        <input type="number" v-model.number='numberTest'>
-        <p>lazy修饰符输入文本框：{{numberTest}}</p>
+        <input type="text" v-model='width'>
+        <my-comp :child-width='width'></my-comp>
     </div>
     <script>
         var app = new Vue({
-            el: '#app',
-            data: {
-                message: '',
-                checkedNames:[],
-                picked:'',
-                selected:'',
-                vforselect:'A',
-                vforselectList:[
-                    {text:'one',value:'A'},
-                    {text:'two',value:'B'},
-                    {text:'three',value:'C'}
-                ],
-                lazymessage:'',
-                numberTest:''
-
+            el:'#app',
+            data:{
+                parentNum:10,
+                width:10
+            },
+            components:{
+                'my-comp':{
+                    props:['child-width'],
+                    data:function(){
+                        return {
+                            count:0
+                        }
+                    },
+                    computed:{
+                        style:function(){
+                            return {
+                                width:this.childWidth + "px",
+                                height:'10px',
+                                'background-color':'red'
+                            }
+                        }
+                    },
+                    template:'<div :style="style">{{count}}</div>'
+                }
             }
         })
     </script>
