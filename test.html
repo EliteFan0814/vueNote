@@ -13,35 +13,81 @@
     <div id="app">
         <input type="text" v-model='width'>
         <my-comp :child-width='width'></my-comp>
+        <my-component :prop1='par1' :prop2='par2' :prop3='par3' :prop4='par4' :prop5='par5' :prop6='par6' :prop7='par7'>
+        </my-component>
     </div>
     <script>
-        var app = new Vue({
-            el:'#app',
-            data:{
-                parentNum:10,
-                width:10
+        Vue.component('my-component', {
+            props: {
+                // 必须为 Number 类型
+                prop1: Number,
+                // String 或 Number
+                prop2: [String, Number],
+                // Boolean 默认值为 true
+                prop3: {
+                    type: Boolean,
+                    default: true
+                },
+                // Boolean 必须值
+                prop4: {
+                    type: Boolean,
+                    required: true
+                },
+                // 若为 Array 或 Object 默认值需用一个函数返回
+                prop5: {
+                    type: Array,
+                    default: function () {
+                        return []
+                    }
+                },
+                // 自定义验证函数
+                prop6: {
+                    validator: function (value) {
+                        return value > 10
+                    }
+                },
+                // 函数
+                prop7: Function
             },
-            components:{
-                'my-comp':{
-                    props:['child-width'],
-                    data:function(){
+            template: '<div>{{prop1}}---{{prop2}}---{{prop3}}---{{prop4}}---{{prop5}}---{{prop6}}---{{prop7}}</div>'
+        })
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                parentNum: 10,
+                width: 10,
+                par1: 456,
+                par2: 'fpc',
+                par3: false,
+                par4: true,
+                par5: [],
+                par6: 20,
+                par7: console.log()
+            },
+            components: {
+                'my-comp': {
+                    props: ['child-width'],
+                    data: function () {
                         return {
-                            count:0
+                            count: 0
                         }
                     },
-                    computed:{
-                        style:function(){
+                    computed: {
+                        style: function () {
                             return {
-                                width:this.childWidth + "px",
-                                height:'10px',
-                                'background-color':'red'
+                                width: this.childWidth + "px",
+                                height: '10px',
+                                'background-color': 'red'
                             }
                         }
                     },
-                    template:'<div :style="style">{{count}}</div>'
+                    template: '<div :style="style">{{count}}</div>'
                 }
             }
         })
+
+
     </script>
 </body>
 
