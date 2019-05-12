@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">{{count}}
+        <my-com ref='a'><p>我是父组件的插入内容</p></my-com>
+        <name-com>
+            <h3 slot='header'>这里是标题<span>嘿嘿嘿</span></h3>
+            <p>这里是文章内容</p>
+            <div slot='footer'>这里是结尾</div>
+            <p>这里是多余的</p>
+        </name-com>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                count: 0,
+                whichRef: '未拿到',
+                bus: new Vue()
+            },
+            methods: {
+                getChildref: function () {
+                    this.whichRef = this.$refs.a.aref
+                }
+            },
+            components: {
+                'my-com': {
+                    data: function () {
+                        return {
+                            msg: '我是来自A组件的内容',
+                            aref: '我是 a 组件'
+                        }
+                    },
+                    methods: {
+                        handleClick: function () {
+                            this.$root.bus.$emit('atrans', this.msg)
+                            this.$parent.count++
+                        }
+                    },
+                    template: `<div><slot>默认的</slot></div>`
+                },
+                'name-com': {
+                    template: `
+                        <div>
+                            <div class='header'>
+                                <slot name='header'></slot>
+                            </div>
+                            <div class='body'>
+                                <slot></slot>
+                            </div>
+                            <div class='footer'>
+                                <slot name='footer'></slot>
+                            </div>
+                        </div>
+                    `,
+                    mounted:function(){
+                        let header = this.$slots.header
+                        console.log(header)
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

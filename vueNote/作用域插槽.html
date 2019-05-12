@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">{{count}}
+        <my-com ref='a'>
+            <template slot='abc' slot-scope='prop'>
+                {{prop.text}}
+            </template>
+        </my-com>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                count: 0,
+                whichRef: '未拿到',
+                bus: new Vue()
+            },
+            methods: {
+                getChildref: function () {
+                    this.whichRef = this.$refs.a.aref
+                }
+            },
+            components: {
+                'my-com': {
+                    data: function () {
+                        return {
+                            msg: '我是来自A组件的内容',
+                            aref: '我是 a 组件'
+                        }
+                    },
+                    methods: {
+                        handleClick: function () {
+                            this.$root.bus.$emit('atrans', this.msg)
+                            this.$parent.count++
+                        }
+                    },
+                    template: `<div><slot text='我是来自子组件的信息' name='abc'>默认的</slot></div>`
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

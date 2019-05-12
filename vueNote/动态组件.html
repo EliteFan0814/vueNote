@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <component :is='thisView'></component>
+        <button @click='handleView("1")'>1</button>
+        <button @click='handleView("2")'>2</button>
+        <button @click='handleView("3")'>3</button>
+        <button @click='handleView("4")'>4</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                thisView: '无'
+            },
+            methods: {
+                handleView: function (tag) {
+                    this.thisView = 'my-com' + tag
+                }
+            },
+            components: {
+                'my-com1': {
+                    template: `<div>11111</div>`
+                },
+                'my-com2': {
+                    template: `<div>22222</div>`
+                },
+                'my-com3': {
+                    template: `<div>33333</div>`
+                },
+                'my-com4': {
+                    template: `<div>44444</div>`
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,27 +1,19 @@
 <template>
   <div id="app">
-    <list/>
-    <img src="./assets/logo.png">
+    <!-- <img src="./assets/logo.png"> -->
     <router-view/>
   </div>
 </template>
 
 <script>
-import list from './components/list'
 export default {
-  name: 'App',
-  data: function () {
-    return {}
-  },
-  components: {
-    list
-  }
+  name: 'App'
 }
 </script>
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

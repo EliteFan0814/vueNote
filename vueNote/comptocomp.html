@@ -10,14 +10,10 @@
 </head>
 
 <body>
-    <div id="app">{{count}}
+    <div id="app">{{count}}---{{whichRef}}
+        <button @click='getChildref'>点我获取子组件信息</button>
         <my-com ref='a'></my-com>
-        <name-com>
-            <h3 slot='header'>这里是标题</h3>
-            <p>这里是文章内容</p>
-            <div slot='footer'>这里是结尾</div>
-            <p>这里是多余的</p>
-        </name-com>
+        <my-com2 ref='b'></my-com2>
     </div>
     <script>
         var app = new Vue({
@@ -46,22 +42,22 @@
                             this.$parent.count++
                         }
                     },
-                    template: `<div><slot>默认的</slot></div>`
+                    template: '<button @click="handleClick">点击传数据给B组组件</button>'
                 },
-                'name-com': {
-                    template: `
-                        <div>
-                            <div class='header'>
-                                <slot name='header'></slot>
-                            </div>
-                            <div class='body'>
-                                <slot></slot>
-                            </div>
-                            <div class='footer'>
-                                <slot name='footer'></slot>
-                            </div>
-                        </div>
-                    `
+                'my-com2': {
+                    data: function () {
+                        return {
+                            msg: '未收到消息',
+                            aref: '我是 b 组件'
+                        }
+                    },
+                    created: function () {
+                        this.$root.bus.$on('atrans', function (value) {
+                            alert(value)
+                            alert(this.msg)
+                        })
+                    },
+                    template: '<div>{{msg}}</div>'
                 }
             }
         })
