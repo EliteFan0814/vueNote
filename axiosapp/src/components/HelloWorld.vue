@@ -2,6 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>{{ fromSon }}</h2>
+    <button @click='padd'>点击增加</button>
+    <button @click='paddAction'>点击减少使用action</button>
     <h2>我是Vuex---{{getNum}}</h2>
     <button @click="getData">点击获取</button>
     <ul>
@@ -31,7 +33,8 @@ export default {
   },
   computed:{
     getNum:function(){
-      return this.$store.state.num
+      // return this.$store.state.num
+      return this.$store.getters.getNum
     }
   },
   methods:{
@@ -47,6 +50,12 @@ export default {
     },
     getFromSon:function(val){
       this.fromSon = val
+    },
+    padd(){
+      this.$store.commit('increase')
+    },
+    paddAction(){
+      this.$store.dispatch('decreaseAction')
     }
   }
 }
